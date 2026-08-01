@@ -1,7 +1,5 @@
 # CP input plumbing — C++ reference
 
-All patterns use the structure from your B: `main` handles the test-case loop, `solve()` handles one test case and never reads `t`.
-
 ---
 
 ## Skeleton
