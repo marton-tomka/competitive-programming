@@ -3,10 +3,6 @@ reference/recall.md
 reference/tier1-2-math-backbone-expanded.md
 algorithms/
 
-# Windows executables and DLLs
-*.exe
-*.dll
-
 # Common compiled binary outputs (Linux / macOS)
 *.out
 *.bin
