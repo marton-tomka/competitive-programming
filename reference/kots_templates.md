@@ -51,7 +51,7 @@ ll mul(ll a, ll b) { return a * b % MOD; }
 
 ## basics
 
----- **binary search** (predicate template) ---- [*[ dip ]*](#kots-cf-templates)
+---- **binary search** ---- [*[ dip ]*](#kots-cf-templates)
 
 ```cpp
 int lo{}, hi = n;
@@ -63,7 +63,7 @@ while (lo < hi) {
 // lo == hi == first index where pred holds
 ```
 
----- **two pointers** (sorted pair sum) ---- [*[ dip ]*](#kots-cf-templates)
+---- **two pointers** ---- [*[ dip ]*](#kots-cf-templates)
 
 ```cpp
 std::ranges::sort(v);
@@ -77,7 +77,7 @@ while (i < j) {
 }
 ```
 
----- **sliding window** (longest subarray, sum <= k) ---- [*[ dip ]*](#kots-cf-templates)
+---- **sliding window** ---- [*[ dip ]*](#kots-cf-templates)
 
 ```cpp
 ll sum{};
@@ -98,10 +98,10 @@ std::vector<ll> pref(n + 1, 0);
 for (int i{}; i < n; ++i)
     pref[i + 1] = pref[i] + v[i];
 
-// sum of v[l..r) : pref[r] - prefl]
+// sum of v[l..r) : pref[r] - pref[l]
 ```
 
----- 1D **difference array** (range update) ---- [*[ dip ]*](#kots-cf-templates)
+---- 1D **difference array** ---- [*[ dip ]*](#kots-cf-templates)
 
 ```cpp
 std::vector<ll> diff(n + 1, 0);
