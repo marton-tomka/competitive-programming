@@ -4,6 +4,7 @@
 [-- MODULAR ARITHMETIC](#mod)
 [-- BASICS](#basics)
 [-- GRAPHS](#graphs)
+[-- DP](#dp)
 [-- GRIDS](#grids)
 
 ---
@@ -483,6 +484,203 @@ struct DSU {
         return true;
     }
 };
+```
+
+---
+
+## dp
+
+---- **memo / tabulation** ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// top-down (memo)
+std::vector<ll> memo(n + 1, -1);
+auto f = [&](this auto&& self, int i) -> ll {
+    if (/* base case */) return /* base value */;
+    ll& r = memo[i];
+    if (r != -1) return r;
+    return r = /* recurrence: self(...) */;
+};
+ll ans = f(n);
+
+// bottom-up (tabulation)
+std::vector<ll> dp(n + 1);
+dp[0] = /* base */;
+for (int i = 1; i <= n; ++i)
+    dp[i] = /* recurrence: dp[i - 1], dp[i - 2], ... */;
+// answer: dp[n]
+```
+
+---- **kadane** (max subarray sum) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+ll cur = a[0], best = a[0];
+for (int i = 1; i < n; ++i) {
+    cur = std::max(static_cast<ll>(a[i]), cur + a[i]);
+    best = std::max(best, cur);
+}
+```
+
+---- **house robber** (no adjacent) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+ll skip{}, take = a[0];
+for (int i = 1; i < n; ++i) {
+    ll nskip = std::max(skip, take);
+    ll ntake = skip + a[i];
+    skip = nskip;
+    take = ntake;
+}
+ll best = std::max(skip, take);
+```
+
+---- **knapsack** (0/1 + unbounded + subset-sum) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// 0/1: each item once -- capacity loop DOWNWARD
+std::vector<ll> dp(W + 1, 0);
+for (auto [w, val] : items)
+    for (int c = W; c >= w; --c)
+        dp[c] = std::max(dp[c], dp[c - w] + val);
+
+// unbounded: unlimited copies -- only the loop direction flips, UPWARD
+for (auto [w, val] : items)
+    for (int c = w; c <= W; ++c)
+        dp[c] = std::max(dp[c], dp[c - w] + val);
+
+// subset-sum feasibility (0/1, values irrelevant)
+std::vector<bool> can(W + 1, false);
+can[0] = true;
+for (int w : wts)
+    for (int c = W; c >= w; --c)
+        can[c] = can[c] || can[c - w];
+```
+
+---- **knapsack** (bounded) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// item available k times -> binary-split into 0/1 bundles
+std::vector<std::pair<int, ll>> flat;
+for (auto [w, val, k] : items)
+    for (int take = 1; k > 0; take *= 2) {
+        int t = std::min(take, k);
+        k -= t;
+        flat.push_back({w * t, val * t});
+    }
+// then 0/1 knapsack over flat
+```
+
+---- **coin change** (min coins + counting ways) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// min coins (unbounded)
+std::vector<int> dp(A + 1, INT_MAX / 2);
+dp[0] = 0;
+for (int x = 1; x <= A; ++x)
+    for (int c : coins)
+        if (c <= x)
+            dp[x] = std::min(dp[x], dp[x - c] + 1);
+
+// count ways, UNORDERED (combinations) -- coin OUTER
+std::vector<ll> ways(A + 1, 0);
+ways[0] = 1;
+for (int c : coins)
+    for (int x = c; x <= A; ++x)
+        ways[x] = add(ways[x], ways[x - c]);
+
+// count ways, ORDERED (sequences) -- amount OUTER
+std::vector<ll> seq(A + 1, 0);
+seq[0] = 1;
+for (int x = 1; x <= A; ++x)
+    for (int c : coins)
+        if (c <= x)
+            seq[x] = add(seq[x], seq[x - c]);
+```
+
+---- **LIS** (O(n^2) + O(n log n)) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// O(n^2): dp[i] = LIS length ending exactly at i
+std::vector<int> dp(n, 1);
+int best{};
+for (int i{}; i < n; ++i) {
+    for (int j{}; j < i; ++j)
+        if (a[j] < a[i]) dp[i] = std::max(dp[i], dp[j] + 1);
+    best = std::max(best, dp[i]);
+}
+
+// O(n log n): tail[k] = smallest possible last element of a length-(k+1) subsequence
+std::vector<int> tail;
+for (int x : a) {
+    auto it = std::ranges::lower_bound(tail, x); // upper_bound -> non-decreasing
+    if (it == tail.end()) tail.push_back(x);
+    else *it = x;
+}
+best = tail.size(); // tail itself is NOT the actual subsequence
+```
+
+---- **LCS** ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+std::vector dp(n + 1, std::vector<int>(m + 1, 0));
+for (int i = 1; i <= n; ++i)
+    for (int j = 1; j <= m; ++j)
+        dp[i][j] = a[i - 1] == b[j - 1] ? dp[i - 1][j - 1] + 1 : std::max(dp[i - 1][j], dp[i][j - 1]);
+int best = dp[n][m];
+
+// reconstruction: walk back from (n, m)
+std::string res;
+for (int i = n, j = m; i > 0 && j > 0;) {
+    if (a[i - 1] == b[j - 1]) { res += a[i - 1]; --i; --j; }
+    else if (dp[i - 1][j] >= dp[i][j - 1]) --i;
+    else --j;
+}
+std::ranges::reverse(res);
+```
+
+---- [grid](#grids) 2D **dp** (path count, obstacles) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+std::vector dp(R, std::vector<ll>(C, 0));
+dp[0][0] = grid[0][0] != '#';
+for (int r{}; r < R; ++r)
+    for (int c{}; c < C; ++c) {
+        if (grid[r][c] == '#') { dp[r][c] = 0; continue; }
+        if (r) dp[r][c] = add(dp[r][c], dp[r - 1][c]);
+        if (c) dp[r][c] = add(dp[r][c], dp[r][c - 1]);
+    }
+```
+
+---- 2D **prefix sums / diff** ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+// build: p[i][j] = sum of the i x j top-left subgrid (1-based padding)
+std::vector p(n + 1, std::vector<ll>(m + 1, 0));
+for (int i{}; i < n; ++i)
+    for (int j{}; j < m; ++j)
+        p[i + 1][j + 1] = a[i][j] + p[i][j + 1] + p[i + 1][j] - p[i][j];
+
+// query: sum over rows [r1, r2) x cols [c1, c2)
+ll s = p[r2][c2] - p[r1][c2] - p[r2][c1] + p[r1][c1];
+
+// 2D difference: range add x on rows [r1, r2) x cols [c1, c2)
+std::vector d(n + 1, std::vector<ll>(m + 1, 0));
+d[r1][c1] += x; d[r1][c2] -= x;
+d[r2][c1] -= x; d[r2][c2] += x;
+// finalize: 2D prefix sum of d (as above) -- result is the grid
+```
+
+---- **range-sum dp** (prefix optimization) ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+std::vector<ll> dp(n + 1), pref(n + 2);
+dp[0] = 1;
+pref[1] = 1;
+for (int i = 1; i <= n; ++i) {
+    int lo = std::max(0, i - k);
+    dp[i] = sub(pref[i], pref[lo]);     // sum dp[lo..i-1] in O(1)
+    pref[i + 1] = add(pref[i], dp[i]);
+}
 ```
 
 ---
