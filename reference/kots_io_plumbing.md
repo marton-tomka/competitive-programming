@@ -1,11 +1,12 @@
 # CP input plumbing — C++ reference
+(I havent used this once yet actually)
 
 ---
 
 
 ## The fact that removes most plumbing
 
-`>>` skips **all** leading whitespace — spaces, tabs, newlines — then reads one token. It does not care about line structure.
+`>>` skips **all** leading whitespace then reads one token. It does not care about line structure.
 
 So `n` integers spread over one line, `n` lines, or any mix all read identically. If the input has no spaces *inside* a value you care about, you never need `getline`.
 
