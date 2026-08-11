@@ -22,3 +22,11 @@ I have started a few months ago, put in about 200 hours of deep study to algorit
 
 ---
 
+PS: Yes, most of my guides/learning docs have been written by AI (fable 5/opus 4.8), I personally find it easier to learn from an overarching grandiose yet minimalist doc, bit by bit, asking my questions and building my understanding interactively on the way.
+
+With that said, I hereby declare no use of AI in any official or virtual contests in any way shape or form.
+
+
+
+
+
