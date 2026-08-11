@@ -1,6 +1,5 @@
 # Ignore specific file
 reference/recall.md
-reference/tier1-2-math-backbone-expanded.md
 algorithms/
 
 # Common compiled binary outputs (Linux / macOS)
