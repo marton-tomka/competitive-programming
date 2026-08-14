@@ -6,6 +6,7 @@
 [-- GRAPHS](#graphs)
 [-- DP](#dp)
 [-- GRIDS](#grids)
+[-- RANDOM](#random)
 
 ---
 
@@ -746,5 +747,21 @@ constexpr std::array<int, 8> dc{2, -2, 2, -2, 1, -1, 1, -1};
 
 ---
 
+## random
 
+---- is **number palindrome** ---- [*[ dip ]*](#kots-cf-templates)
+
+```cpp
+bool pal(int x) {
+    ll rev{};
+    ll o = x;
+
+    while (x > 0) {
+        rev = rev * 10 + (x % 10);
+        x /= 10;
+    }
+
+    return o == rev;
+}
+```
 

@@ -45,6 +45,11 @@ v.insert(v.begin() + i, x);          // O(n): shifts the tail
 v.erase(v.begin() + i);              // O(n): shifts the tail
 v.erase(v.begin() + l, v.begin() + r); // erase range [l, r)
 sort(v.begin(), v.end());            // ranges::sort(v);
+std::ranges::sort(people, {}, &Person::age); // 1. Ascending by age using projection
+std::ranges::sort(people, std::greater{}, &Person::age); // 2. Descending by age using std::greater{} and projection
+std::ranges::sort(people, std::greater{}, [](const Person& p) {
+    return p.name.length();
+}); // 3. Descending by string length using projection
 for (auto& x : v) x *= 2;            // mutate in place
 ```
 
