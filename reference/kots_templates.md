@@ -344,17 +344,15 @@ int C{};
 
 for (int i{}; i < n; ++i) {
     std::queue<int> q;
-
     comp[i] = 0;
     q.push(i);
 
     while (!q.empty()) {
         int u = q.front();
         q.pop();
-
         for (int v : adj[u]) {
             if (comp[v] == -1) {
-                comp[v] = comp[u];
+                comp[v] = C;
                 q.push(v);
             }
         }
@@ -369,25 +367,22 @@ for (int i{}; i < n; ++i) {
 std::vector<int> col(n, -1);
 bool ok = true;
 
-for (int i{}; i < n; ++i){
-    if (ok == false) break;
+for (int i{}; i < n && ok; ++i){
     if (col[i] != -1) continue;
 
     std::queue<int> q;
-
     col[i] = 0;
     q.push(i);
 
     while (!q.empty()) {
         int u = q.front();
         q.pop();
-
         for (int v : adj[u]) {
             if (col[v] == -1 && ok) {
                 col[v] = col[u] ^ 1;
                 q.push(v);
             } else if (col[v] == col[u]) {
-                ok = false; break;
+                ok = false;
             }
         }
     }
