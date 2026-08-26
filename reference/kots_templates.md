@@ -392,19 +392,17 @@ for (int i{}; i < n && ok; ++i){
 ---- undirected **cycle detection** ---- [*[ dip ]*](#kots-cf-templates)
 
 ```cpp
-std::vector<bool> vis(n, false);
+std::vector<int> vis(n);
 bool cycle = false;
 
 auto dfs = [&](this auto&& self, int u, int par) -> void {
-    vis[u] = true;
+    vis[u] = 1;
     for (int v : adj[u]) {
         if (v == par) continue;
+        if (vis[v]) { cycle = true; return; }
+        self(v, u);
 
-        if (vis[v]) {
-            cycle = true;
-        } else {
-            self(v, u);
-        }
+        if (cycle) return;
     }
 };
 
@@ -419,18 +417,14 @@ for (int i{}; i < n; ++i) {
 
 ```cpp
 std::vector<int> in_degree(n, 0);
-for (int u{}; u < n; ++u) {
-    for (int v : adj[u]) {
+for (int u{}; u < n; ++u)
+    for (int v : adj[u])
         ++in_degree[v];
-    }
-}
 
 std::queue<int> q;
-for (int i{}; i < n; ++i) {
-    if (in_degree[i] == 0) {
+for (int i{}; i < n; ++i)
+    if (in_degree[i] == 0)
         q.push(i);
-    }
-}
 
 std::vector<int> order;
 order.reserve(n);
@@ -440,11 +434,9 @@ while (!q.empty()) {
     q.pop();
     order.push_back(u);
 
-    for (int v : adj[u]) {
-        if (--in_degree[v] == 0) {
+    for (int v : adj[u])
+        if (--in_degree[v] == 0)
             q.push(v);
-        }
-    }
 }
 
 bool cycle = (order.size() != static_cast<size_t>(n));
