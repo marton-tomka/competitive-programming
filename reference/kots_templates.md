@@ -41,7 +41,7 @@ Refer to the doc detailing most cases, here: [OPEN I/O PLUMBING](kots_io_plumbin
 
 ```cpp
 // 1'000'000'007 is better sometimes
-const ll MOD = 998'244'353;
+constexpr ll MOD = 998'244'353;
 ll add(ll a, ll b) { a += b; return a >= MOD ? a - MOD : a; }
 ll sub(ll a, ll b) { a -= b; return a < 0 ? a + MOD : a; }
 ll mul(ll a, ll b) { return a * b % MOD; }
