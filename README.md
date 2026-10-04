@@ -17,7 +17,7 @@ I have started a few months ago, put in about 200 hours of deep study to algorit
 .
 ├── reference/   # Contest boilerplate & study materials
 ├── Codeforces/  # Codeforces problem solutions (CATEGORY-problemID)
-└── random_prac/   # Random (AI provided) problem solutions, organized by level up to which it provided unlabeled tasks
+└── random_prac/   # Solutions for random (AI provided) problems, organized by level up to which it provided unlabeled tasks
 ```
 
 ---
