@@ -8,7 +8,7 @@ I have started a few months ago, put in about 200 hours of deep study to algorit
 
 | Platform | Handle | Rating |
 |---|---|---|
-| [Codeforces](https://codeforces.com/profile/HANDLE) | [kots](https://codeforces.com/profile/kots) | Newbie (~900) |
+| [Codeforces](https://codeforces.com/profile/HANDLE) | [kots](https://codeforces.com/profile/kots) | Pupil (~1200) |
 
 
 ### Structure
