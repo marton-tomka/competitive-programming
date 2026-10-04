@@ -1,5 +1,7 @@
 # Ignore specific file
 reference/recall.md
+reference/kots.txt
+reference/examp.cpp
 algorithms/
 
 # Common compiled binary outputs (Linux / macOS)
