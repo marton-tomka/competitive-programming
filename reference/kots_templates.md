@@ -343,8 +343,9 @@ std::vector<int> comp(n, -1);
 int C{};
 
 for (int i{}; i < n; ++i) {
+    if (comp[i] != -1) continue;
     std::queue<int> q;
-    comp[i] = 0;
+    comp[i] = C;
     q.push(i);
 
     while (!q.empty()) {
