@@ -348,7 +348,7 @@ for (int i{}; i < n; ++i) {
     comp[i] = C;
     q.push(i);
 
-    while (!q.empty()) {
+    while (!q.empty() && ok) {
         int u = q.front();
         q.pop();
         for (int v : adj[u]) {
