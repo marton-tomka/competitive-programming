@@ -31,6 +31,8 @@ template <class T>
 bool minmin(T& a, const std::type_identity_t<T>& b) { return b < a ? (a = b, true) : false; }
 template <class T>
 bool maxmax(T& a, const std::type_identity_t<T>& b) { return a < b ? (a = b, true) : false; }
+void yes(bool ok = true) { std::cout << (ok ? "YES\n" : "NO\n"); }
+void no() { yes(false); }
 
 template <class T>
 std::istream& operator>>(std::istream& is, std::vector<T>& v) {
@@ -41,11 +43,7 @@ template <class T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
     for (int i{}; i < std::ssize(v); ++i) os << (i ? " " : "") << v[i];
     return os;
-}
-
-void yes(bool ok = true) { std::cout << (ok ? "YES\n" : "NO\n"); }
-void no() { yes(false); }
-// clang-format on
+} // clang-format on
 
 // ---------------------------------------------------------
 
