@@ -1,0 +1,3 @@
+# the skeleton imports names (using std::x) and rgs that not every solution uses
+Diagnostics:
+  Suppress: [misc-unused-using-decls, misc-unused-alias-decls]

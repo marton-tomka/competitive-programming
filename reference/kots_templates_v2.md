@@ -17,30 +17,30 @@
 ## skeleton
 
 ```cpp
-#include <bits/stdc++.h>
+#include <bits/stdc++.h> // clang-format off
 using i64 = long long;
 using u64 = unsigned long long;
 using u32 = unsigned;
 namespace rgs = std::ranges;
 
-// clang-format off
-template <class T>
-constexpr T inf = std::numeric_limits<T>::max() / 2;
+using std::cin, std::cout;
+using std::string, std::vector, std::array, std::pair, std::deque, std::queue, std::priority_queue,
+      std::set, std::multiset, std::map, std::unordered_map, std::unordered_set;
 
 template <class T>
 bool minmin(T& a, const std::type_identity_t<T>& b) { return b < a ? (a = b, true) : false; }
 template <class T>
 bool maxmax(T& a, const std::type_identity_t<T>& b) { return a < b ? (a = b, true) : false; }
-void yes(bool ok = true) { std::cout << (ok ? "YES\n" : "NO\n"); }
+void yes(bool ok = true) { cout << (ok ? "YES\n" : "NO\n"); }
 void no() { yes(false); }
 
 template <class T>
-std::istream& operator>>(std::istream& is, std::vector<T>& v) {
+std::istream& operator>>(std::istream& is, vector<T>& v) {
     for (auto& x : v) is >> x;
     return is;
 }
 template <class T>
-std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
+std::ostream& operator<<(std::ostream& os, const vector<T>& v) {
     for (int i{}; i < std::ssize(v); ++i) os << (i ? " " : "") << v[i];
     return os;
 } // clang-format on
@@ -53,10 +53,11 @@ void solve() {
 
 int main() {
     std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    cin.tie(nullptr);
     int t = 1;
-    std::cin >> t;
-    while (t--) solve();
+    cin >> t;
+    while (t--)
+        solve();
 }
 ```
 
@@ -71,7 +72,7 @@ rgs::iota(p, 0);  rgs::shuffle(v, rng);                        // rng: see [rand
 std::accumulate(v.begin(), v.end(), 0LL);                      // 0LL, or the sum is computed in int
 std::ssize(v)                                                  // signed size: i < std::ssize(v), no casts
 std::max<i64>(a, b);  1LL * a * b;                             // mixing int and i64
-__int128(a) * b <= lim                                         // overflow-safe check; std::cin / std::cout can't do __int128
+__int128(a) * b <= lim                                         // overflow-safe check; cin / cout can't do __int128
 std::popcount(u64(x));  std::countr_zero(u64(x));  std::bit_width(u64(x)) - 1;  // x >= 0; last = floor(log2 x)
 __builtin_popcountll(x);  std::__lg(x);                        // GCC versions, take signed values
 (a + b - 1) / b                                                // ceil(a / b) for a >= 0, b > 0
@@ -85,14 +86,14 @@ s.lower_bound(x)                                               // set/map: the M
 [I/O plumbing](kots_io_plumbing.md)
 
 ```cpp
-std::vector<int> a(n);
-std::cin >> a;                 // n values
-std::vector<std::pair<int, int>> e(m);
-for (auto& [u, v] : e) std::cin >> u >> v;   // m pairs (--u, --v here if 1-indexed)
-std::vector<std::string> g(R);
-std::cin >> g;                 // char grid, g[r][c]
-std::cout << a << '\n';        // space-separated
-// interactive: std::cout << query << std::endl;  (endl flushes; the untied std::cin no longer does)
+vector<int> a(n);
+cin >> a;                              // n values
+vector<pair<int, int>> e(m);
+for (auto& [u, v] : e) cin >> u >> v;  // m pairs (--u, --v here if 1-indexed)
+vector<string> g(R);
+cin >> g;                              // char grid, g[r][c]
+cout << a << '\n';                     // space-separated
+// interactive: cout << query << std::endl;  (endl flushes; the untied cin no longer does)
 ```
 
 ---
@@ -134,7 +135,7 @@ struct mint {
     friend std::ostream& operator<<(std::ostream& os, mint a) { return os << a.v; }
     friend std::istream& operator>>(std::istream& is, mint& a) { i64 x; is >> x; a = x; return is; }
 };
-// mint x = 5;  x += y * 3;  x / 2;  x.pow(n);  std::cout << x;  std::vector<mint> dp(n + 1);
+// mint x = 5;  x += y * 3;  x / 2;  x.pow(n);  cout << x;  vector<mint> dp(n + 1);
 // probability / expected value p/q "mod MOD"  ->  mint(p) / q
 ```
 
@@ -143,7 +144,7 @@ struct mint {
 ```cpp
 // ---- global ----
 struct Binom {
-    std::vector<mint> f, fi; // n!, 1/n!
+    vector<mint> f, fi; // n!, 1/n!
     Binom(int n) : f(n + 1, 1), fi(n + 1, 1) {
         for (int i = 1; i <= n; ++i) f[i] = f[i - 1] * i;
         fi[n] = f[n].inv();
@@ -214,7 +215,7 @@ for (int l{}, r{}; r < n; ++r) {
 ---- 1D **prefix sums** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<i64> pref(n + 1);
+vector<i64> pref(n + 1);
 for (int i{}; i < n; ++i)
     pref[i + 1] = pref[i] + v[i];
 
@@ -224,11 +225,11 @@ for (int i{}; i < n; ++i)
 ---- 1D **difference array** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<i64> diff(n + 1);
+vector<i64> diff(n + 1);
 diff[l] += x;
 diff[r + 1] -= x; // range add x on [l, r] inclusive
 
-std::vector<i64> v(n);
+vector<i64> v(n);
 i64 run{};
 for (int i{}; i < n; ++i) {
     run += diff[i];
@@ -239,7 +240,7 @@ for (int i{}; i < n; ++i) {
 ---- **coordinate compression** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<int> xs = a; // every value that matters (append other arrays if they share the axis)
+vector<int> xs = a; // every value that matters (append other arrays if they share the axis)
 rgs::sort(xs);
 xs.erase(rgs::unique(xs).begin(), xs.end());
 auto id = [&](int x) { return int(rgs::lower_bound(xs, x) - xs.begin()); }; // value -> [0, |xs|)
@@ -280,8 +281,8 @@ i64 bexp(i64 b, i64 e, i64 mod) { // b^e % mod; mod up to ~3e9 (b * b must fit i
 ```cpp
 // ---- global ----  built once at startup (~7 ms), NOT per test case
 constexpr int MX = 1'000'000;
-const std::vector<int> spf = [] {
-    std::vector<int> s(MX + 1);
+const vector<int> spf = [] {
+    vector<int> s(MX + 1);
     for (int i = 2; i <= MX; ++i) {
         if (s[i]) continue;
         for (int j = i; j <= MX; j += i)
@@ -293,7 +294,7 @@ const std::vector<int> spf = [] {
 
 // ---- solve() ---- O(log x)
 auto factor = [&](int x) {
-    std::vector<std::pair<int, int>> f;
+    vector<pair<int, int>> f;
     while (x > 1) {
         int p = spf[x], e{};
         while (x % p == 0) { x /= p; ++e; }
@@ -307,12 +308,12 @@ auto factor = [&](int x) {
 
 ```cpp
 // gcd counting, divisor sums: for every d visit all multiples of d -> O(MX log MX)
-std::vector<int> freq(MX + 1), cnt(MX + 1); // freq[v] = how many times v occurs
+vector<int> freq(MX + 1), cnt(MX + 1); // freq[v] = how many times v occurs
 for (int d = 1; d <= MX; ++d)
     for (int m = d; m <= MX; m += d) cnt[d] += freq[m]; // cnt[d] = # elements divisible by d
 
 // all divisors of one x in O(sqrt x)
-std::vector<i64> divs;
+vector<i64> divs;
 for (i64 d = 1; d * d <= x; ++d) {
     if (x % d) continue;
     divs.push_back(d);
@@ -324,8 +325,8 @@ for (i64 d = 1; d * d <= x; ++d) {
 
 ```cpp
 // ---- global ----
-std::vector<std::pair<i64, int>> factor(i64 n) {
-    std::vector<std::pair<i64, int>> f;
+vector<pair<i64, int>> factor(i64 n) {
+    vector<pair<i64, int>> f;
     for (i64 d = 2; d * d <= n; ++d) {
         if (n % d) continue;
         int e{};
@@ -342,7 +343,7 @@ std::vector<std::pair<i64, int>> factor(i64 n) {
 ```cpp
 // prv[i] = nearest j < i with a[j] < a[i]  (else -1)
 // nxt[i] = nearest j > i with a[j] <= a[i] (else n)
-std::vector<int> prv(n, -1), nxt(n, n), st;
+vector<int> prv(n, -1), nxt(n, n), st;
 st.reserve(n);
 for (int i{}; i < n; ++i) {
     while (!st.empty() && a[st.back()] >= a[i]) {
@@ -368,8 +369,8 @@ for (int i{}; i < n; ++i)
 ---- **monotonic deque** (sliding window max) ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::deque<int> dq;
-std::vector<int> window_max;
+deque<int> dq;
+vector<int> window_max;
 if (n >= k) window_max.reserve(n - k + 1);
 
 for (int i{}; i < n; ++i) {
@@ -390,7 +391,7 @@ for (int i{}; i < n; ++i) {
 // ---- global ----  // point add, range sum, 0-indexed, O(log n)
 struct BIT {
     int n;
-    std::vector<i64> t;
+    vector<i64> t;
     BIT(int n) : n(n), t(n + 1) {}
     void add(int i, i64 x) { for (++i; i <= n; i += i & -i) t[i] += x; }
     i64 sum(int r) const { i64 s{}; for (; r > 0; r -= r & -r) s += t[r]; return s; }
@@ -416,9 +417,9 @@ struct Seg {
     int n;
     F op;
     T e;
-    std::vector<T> t;
+    vector<T> t;
     Seg(int n, F op, T e) : n(n), op(op), e(e), t(2 * n, e) {}
-    Seg(const std::vector<T>& a, F op, T e) : Seg(std::ssize(a), op, e) {
+    Seg(const vector<T>& a, F op, T e) : Seg(std::ssize(a), op, e) {
         for (int i{}; i < n; ++i) t[n + i] = a[i];
         for (int i = n - 1; i > 0; --i) t[i] = op(t[2 * i], t[2 * i + 1]);
     }
@@ -436,7 +437,7 @@ struct Seg {
 
 // ---- solve() ----
 // the type of e picks T: 0 -> int, 0LL -> i64; the lambda's parameter types must match it
-Seg mx(n, [](i64 x, i64 y) { return std::max(x, y); }, -inf<i64>);
+Seg mx(n, [](i64 x, i64 y) { return std::max(x, y); }, std::numeric_limits<i64>::min());
 Seg sm(a, [](i64 x, i64 y) { return x + y; }, 0LL);
 mx.set(i, x);
 i64 best = mx.query(l, r), total = sm.query(0, n);
@@ -448,11 +449,12 @@ i64 best = mx.query(l, r), total = sm.query(0, n);
 // ---- global ----  // all ranges are [l, r), 0-indexed
 struct LazySeg {
     struct Node { i64 sum = 0, mn = 0, mx = 0; };
+    static constexpr i64 INF = std::numeric_limits<i64>::max();
     int n;
-    std::vector<Node> t;
-    std::vector<i64> lz;
+    vector<Node> t;
+    vector<i64> lz;
     LazySeg(int n) : n(n), t(4 * n), lz(4 * n) {}
-    LazySeg(const std::vector<i64>& a) : LazySeg(std::ssize(a)) { if (n) build(1, 0, n, a); }
+    LazySeg(const vector<i64>& a) : LazySeg(std::ssize(a)) { if (n) build(1, 0, n, a); }
 
     static Node pull(const Node& a, const Node& b) {
         return {a.sum + b.sum, std::min(a.mn, b.mn), std::max(a.mx, b.mx)};
@@ -461,7 +463,7 @@ struct LazySeg {
     void push(int p, int l, int m, int r) {
         if (lz[p]) put(2 * p, m - l, lz[p]), put(2 * p + 1, r - m, lz[p]), lz[p] = 0;
     }
-    void build(int p, int l, int r, const std::vector<i64>& a) {
+    void build(int p, int l, int r, const vector<i64>& a) {
         if (r - l == 1) { t[p] = {a[l], a[l], a[l]}; return; }
         int m = (l + r) / 2;
         build(2 * p, l, m, a), build(2 * p + 1, m, r, a);
@@ -476,7 +478,7 @@ struct LazySeg {
         t[p] = pull(t[2 * p], t[2 * p + 1]);
     }
     Node query(int ql, int qr, int p, int l, int r) {
-        if (qr <= l || r <= ql) return {0, inf<i64>, -inf<i64>};
+        if (qr <= l || r <= ql) return {0, INF, -INF};
         if (ql <= l && r <= qr) return t[p];
         int m = (l + r) / 2;
         push(p, l, m, r);
@@ -499,9 +501,9 @@ auto [sum, mn, mx] = seg.query(l, r);
 // ---- global ---- // O(n log n) build, O(1) query; op must be idempotent: min, max, gcd, &, |
 template <class T, class F>
 struct Sparse {
-    std::vector<std::vector<T>> t;
+    vector<vector<T>> t;
     F op;
-    Sparse(const std::vector<T>& a, F op) : t{a}, op(op) {
+    Sparse(const vector<T>& a, F op) : t{a}, op(op) {
         for (int k = 1; 1 << k <= std::ssize(a); ++k) {
             t.emplace_back(std::ssize(a) - (1 << k) + 1);
             for (int i{}; i < std::ssize(t[k]); ++i)
@@ -535,7 +537,7 @@ os.insert(x);
 os.erase(x);
 int below = os.order_of_key(x); // # elements < x
 int kth = *os.find_by_order(k); // k-th smallest, 0-based
-// duplicates: ordered_set<std::pair<int, int>> holding {value, unique id}
+// duplicates: ordered_set<pair<int, int>> holding {value, unique id}
 ```
 
 ---
@@ -546,25 +548,25 @@ int kth = *os.find_by_order(k); // k-th smallest, 0-based
 
 ```cpp
 int n, m;
-std::cin >> n >> m;
+cin >> n >> m;
 
-std::vector adj(n, std::vector<int>{});
+vector adj(n, vector<int>{});
 for (int i{}; i < m; ++i) {
     int u, v;
-    std::cin >> u >> v;
+    cin >> u >> v;
     --u, --v;
     adj[u].push_back(v);
     adj[v].push_back(u);
 }
 
-// weighted:  std::vector adj(n, std::vector<std::pair<int, int>>{});  adj[u].emplace_back(v, w);
-// tree as parents p_2..p_n:  for (int i = 1; i < n; ++i) { int p; std::cin >> p; adj[p - 1].push_back(i); }  (children lists)
+// weighted:  vector adj(n, vector<pair<int, int>>{});  adj[u].emplace_back(v, w);
+// tree as parents p_2..p_n:  for (int i = 1; i < n; ++i) { int p; cin >> p; adj[p - 1].push_back(i); }  (children lists)
 ```
 
 ---- simple 1D **DFS** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<bool> vis(n);
+vector<bool> vis(n);
 
 auto dfs = [&](this auto&& self, int u) -> void {
     vis[u] = true;
@@ -579,9 +581,9 @@ for (int i{}; i < n; ++i)
 ---- simple 1D **BFS** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<int> dt(n, -1);
-std::vector<int> par(n, -1);
-std::queue<int> q;
+vector<int> dt(n, -1);
+vector<int> par(n, -1);
+queue<int> q;
 
 dt[start] = 0;
 q.push(start);
@@ -598,7 +600,7 @@ while (!q.empty()) {
 }
 
 // path start -> tgt (if dt[tgt] != -1)
-std::vector<int> path;
+vector<int> path;
 for (int v = tgt; v != -1; v = par[v]) path.push_back(v);
 rgs::reverse(path);
 ```
@@ -606,9 +608,14 @@ rgs::reverse(path);
 ---- **0-1 BFS** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
+// ---- global ----
+template <class T>
+constexpr T inf = std::numeric_limits<T>::max() / 2;
+
+// ---- solve() ----
 // every edge weight is 0 or 1: a deque instead of a heap, O(n + m)
-std::vector<int> d(n, inf<int>);
-std::deque<int> dq{s};
+vector<int> d(n, inf<int>);
+deque<int> dq{s};
 d[s] = 0;
 
 while (!dq.empty()) {
@@ -627,11 +634,13 @@ while (!dq.empty()) {
 ```cpp
 // ---- global ----
 template <class T>
-using min_pq = std::priority_queue<T, std::vector<T>, std::greater<T>>;
+constexpr T inf = std::numeric_limits<T>::max() / 2;
+template <class T>
+using min_pq = priority_queue<T, vector<T>, std::greater<T>>;
 
 // ---- solve() ----  adj[u] = {v, w}, w >= 0
-std::vector<i64> d(n, inf<i64>);
-min_pq<std::pair<i64, int>> pq;
+vector<i64> d(n, inf<i64>);
+min_pq<pair<i64, int>> pq;
 d[s] = 0;
 pq.push({0, s});
 
@@ -648,7 +657,7 @@ while (!pq.empty()) {
 ---- [grid](#grids) 2D **DFS** ---- [*[ dip ]*](#kots-cf-templates-v2) *needs: [grids](#grids)*
 
 ```cpp
-std::vector vis(R, std::vector<bool>(C));
+vector vis(R, vector<bool>(C));
 
 auto dfs = [&](this auto&& self, int r, int c) -> void {
     vis[r][c] = true;
@@ -665,9 +674,9 @@ auto dfs = [&](this auto&& self, int r, int c) -> void {
 ---- [grid](#grids) 2D **BFS** ---- [*[ dip ]*](#kots-cf-templates-v2) *needs: [grids](#grids)*
 
 ```cpp
-std::vector dt(R, std::vector<int>(C, -1));
+vector dt(R, vector<int>(C, -1));
 
-std::queue<std::pair<int, int>> q;
+queue<pair<int, int>> q;
 dt[sr][sc] = 0;
 q.push({sr, sc});
 
@@ -689,12 +698,12 @@ while (!q.empty()) {
 ---- connected **components** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<int> comp(n, -1);
+vector<int> comp(n, -1);
 int comps{};
 
 for (int i{}; i < n; ++i) {
     if (comp[i] != -1) continue;
-    std::queue<int> q;
+    queue<int> q;
     comp[i] = comps;
     q.push(i);
 
@@ -714,13 +723,13 @@ for (int i{}; i < n; ++i) {
 ---- **bipartite** check ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<int> col(n, -1);
+vector<int> col(n, -1);
 bool ok = true;
 
 for (int i{}; i < n && ok; ++i) {
     if (col[i] != -1) continue;
 
-    std::queue<int> q;
+    queue<int> q;
     col[i] = 0;
     q.push(i);
 
@@ -742,7 +751,7 @@ for (int i{}; i < n && ok; ++i) {
 ---- undirected **cycle detection** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector<int> vis(n);
+vector<int> vis(n);
 bool cycle = false;
 
 auto dfs = [&](this auto&& self, int u, int par) -> void {
@@ -765,16 +774,16 @@ for (int i{}; i < n; ++i)
 
 ```cpp
 // min_pq<int> instead of q -> lexicographically smallest order
-std::vector<int> indeg(n);
+vector<int> indeg(n);
 for (int u{}; u < n; ++u)
     for (int v : adj[u])
         ++indeg[v];
 
-std::queue<int> q;
+queue<int> q;
 for (int i{}; i < n; ++i)
     if (indeg[i] == 0) q.push(i);
 
-std::vector<int> order;
+vector<int> order;
 order.reserve(n);
 
 while (!q.empty()) {
@@ -795,7 +804,7 @@ bool cycle = std::ssize(order) != n;
 ```cpp
 // ---- global ----
 struct DSU {
-    std::vector<int> par, sz;
+    vector<int> par, sz;
     int comps;
 
     DSU(int n) : par(n), sz(n, 1), comps(n) { rgs::iota(par, 0); }
@@ -819,9 +828,9 @@ struct DSU {
 ---- **Kruskal** (minimum spanning tree) ---- [*[ dip ]*](#kots-cf-templates-v2) *needs: DSU*
 
 ```cpp
-std::vector<std::array<int, 3>> edges(m);
+vector<array<int, 3>> edges(m);
 for (auto& [w, u, v] : edges) {
-    std::cin >> u >> v >> w;
+    cin >> u >> v >> w;
     --u, --v;
 }
 
@@ -841,7 +850,7 @@ for (auto [w, u, v] : edges)
 
 ```cpp
 // iterative DFS, no recursion. root = 0, adj = undirected tree
-std::vector<int> par(n, -1), dep(n), order, st{0};
+vector<int> par(n, -1), dep(n), order, st{0};
 order.reserve(n);
 while (!st.empty()) {
     int u = st.back();
@@ -855,7 +864,7 @@ while (!st.empty()) {
     }
 }
 
-std::vector<int> sz(n, 1), tin(n);
+vector<int> sz(n, 1), tin(n);
 for (int i = n - 1; i > 0; --i)
     sz[par[order[i]]] += sz[order[i]];
 for (int i{}; i < n; ++i)
@@ -874,7 +883,7 @@ for (int i{}; i < n; ++i)
 // pass 1, children before parents
 // pass 2, parents before children: move the root from par[u] to u
 // sz[u] vertices get 1 closer, n - sz[u] get 1 farther
-std::vector<i64> down(n), ans(n);
+vector<i64> down(n), ans(n);
 
 for (int i = n - 1; i > 0; --i) {
     int u = order[i];
@@ -892,7 +901,7 @@ for (int i = 1; i < n; ++i) {
 
 ```cpp
 int LOG = std::bit_width(u32(n));
-std::vector up(LOG, par);
+vector up(LOG, par);
 up[0][0] = 0;
 for (int k = 1; k < LOG; ++k)
     for (int v{}; v < n; ++v)
@@ -920,7 +929,7 @@ auto dist = [&](int a, int b) { return dep[a] + dep[b] - 2 * dep[lca(a, b)]; };
 
 ```cpp
 // top-down (memo)
-std::vector<i64> memo(n + 1, -1);
+vector<i64> memo(n + 1, -1);
 auto f = [&](this auto&& self, int i) -> i64 {
     if (/* base case */) return /* base value */;
     i64& r = memo[i];
@@ -930,7 +939,7 @@ auto f = [&](this auto&& self, int i) -> i64 {
 i64 ans = f(n);
 
 // bottom-up (tabulation)
-std::vector<i64> dp(n + 1);
+vector<i64> dp(n + 1);
 dp[0] = /* base */;
 for (int i = 1; i <= n; ++i)
     dp[i] = /* recurrence: dp[i - 1], dp[i - 2], ... */;
@@ -964,7 +973,7 @@ i64 best = std::max(skip, take);
 
 ```cpp
 // 0/1: each item once -- capacity loop DOWNWARD
-std::vector<i64> dp(W + 1);
+vector<i64> dp(W + 1);
 for (auto [w, val] : items)
     for (int c = W; c >= w; --c)
         maxmax(dp[c], dp[c - w] + val);
@@ -975,7 +984,7 @@ for (auto [w, val] : items)
         maxmax(dp[c], dp[c - w] + val);
 
 // subset-sum feasibility (0/1, values irrelevant)
-std::vector<bool> can(W + 1);
+vector<bool> can(W + 1);
 can[0] = true;
 for (int w : wts)
     for (int c = W; c >= w; --c)
@@ -993,7 +1002,7 @@ for (int w : wts) bs |= bs << w;
 
 ```cpp
 // item available k times -> binary-split into 0/1 bundles
-std::vector<std::pair<int, i64>> flat;
+vector<pair<int, i64>> flat;
 for (auto [w, val, k] : items)
     for (int take = 1; k > 0; take *= 2) {
         int t = std::min(take, k);
@@ -1006,22 +1015,27 @@ for (auto [w, val, k] : items)
 ---- **coin change** (min coins + counting ways) ---- [*[ dip ]*](#kots-cf-templates-v2) *counting needs: mint*
 
 ```cpp
+// ---- global ----
+template <class T>
+constexpr T inf = std::numeric_limits<T>::max() / 2;
+
+// ---- solve() ----
 // min coins (unbounded); dp[A] == inf<int> -> impossible
-std::vector<int> dp(A + 1, inf<int>);
+vector<int> dp(A + 1, inf<int>);
 dp[0] = 0;
 for (int x = 1; x <= A; ++x)
     for (int c : coins)
         if (c <= x) minmin(dp[x], dp[x - c] + 1);
 
 // count ways, UNORDERED (combinations) -- coin OUTER
-std::vector<mint> ways(A + 1);
+vector<mint> ways(A + 1);
 ways[0] = 1;
 for (int c : coins)
     for (int x = c; x <= A; ++x)
         ways[x] += ways[x - c];
 
 // count ways, ORDERED (sequences) -- amount OUTER
-std::vector<mint> seq(A + 1);
+vector<mint> seq(A + 1);
 seq[0] = 1;
 for (int x = 1; x <= A; ++x)
     for (int c : coins)
@@ -1032,7 +1046,7 @@ for (int x = 1; x <= A; ++x)
 
 ```cpp
 // O(n^2): dp[i] = LIS length ending exactly at i
-std::vector<int> dp(n, 1);
+vector<int> dp(n, 1);
 for (int i{}; i < n; ++i)
     for (int j{}; j < i; ++j)
         if (a[j] < a[i]) maxmax(dp[i], dp[j] + 1);
@@ -1041,7 +1055,7 @@ int best = rgs::max(dp);
 // O(n log n): tail[k] = smallest possible last element of an increasing subsequence of length k + 1
 // upper_bound -> non-decreasing
 // tail itself is NOT the actual subsequence
-std::vector<int> tail;
+vector<int> tail;
 for (int x : a) {
     auto it = rgs::lower_bound(tail, x);
     if (it == tail.end()) tail.push_back(x);
@@ -1053,14 +1067,14 @@ best = std::ssize(tail);
 ---- **LCS** ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
-std::vector dp(n + 1, std::vector<int>(m + 1));
+vector dp(n + 1, vector<int>(m + 1));
 for (int i = 1; i <= n; ++i)
     for (int j = 1; j <= m; ++j)
         dp[i][j] = a[i - 1] == b[j - 1] ? dp[i - 1][j - 1] + 1 : std::max(dp[i - 1][j], dp[i][j - 1]);
 int best = dp[n][m];
 
 // reconstruction: walk back from (n, m)
-std::string res;
+string res;
 for (int i = n, j = m; i > 0 && j > 0;) {
     if (a[i - 1] == b[j - 1]) { res += a[i - 1]; --i, --j; }
     else if (dp[i - 1][j] >= dp[i][j - 1]) --i;
@@ -1072,7 +1086,7 @@ rgs::reverse(res);
 ---- [grid](#grids) 2D **dp** (path count, obstacles) ---- [*[ dip ]*](#kots-cf-templates-v2) *needs: mint*
 
 ```cpp
-std::vector dp(R, std::vector<mint>(C));
+vector dp(R, vector<mint>(C));
 dp[0][0] = g[0][0] != '#';
 for (int r{}; r < R; ++r)
     for (int c{}; c < C; ++c) {
@@ -1086,7 +1100,7 @@ for (int r{}; r < R; ++r)
 
 ```cpp
 // build: p[i][j] = sum of the i x j top-left subgrid (1-based padding)
-std::vector p(n + 1, std::vector<i64>(m + 1));
+vector p(n + 1, vector<i64>(m + 1));
 for (int i{}; i < n; ++i)
     for (int j{}; j < m; ++j)
         p[i + 1][j + 1] = a[i][j] + p[i][j + 1] + p[i + 1][j] - p[i][j];
@@ -1095,7 +1109,7 @@ for (int i{}; i < n; ++i)
 i64 s = p[r2][c2] - p[r1][c2] - p[r2][c1] + p[r1][c1];
 
 // 2D difference: range add x on rows [r1, r2) x cols [c1, c2)
-std::vector d(n + 1, std::vector<i64>(m + 1));
+vector d(n + 1, vector<i64>(m + 1));
 d[r1][c1] += x, d[r1][c2] -= x;
 d[r2][c1] -= x, d[r2][c2] += x;
 // finalize: prefix-sum along rows, then along columns -> d[i][j] = value of cell (i, j)
@@ -1112,7 +1126,7 @@ for (int i = 1; i <= n; ++i)
 ```cpp
 // dp[i] = dp[i - k] + ... + dp[i - 1]
 // sum dp[lo..i-1] in O(1)
-std::vector<mint> dp(n + 1), pref(n + 2);
+vector<mint> dp(n + 1), pref(n + 2);
 dp[0] = 1;
 pref[1] = 1;
 for (int i = 1; i <= n; ++i) {
@@ -1139,8 +1153,13 @@ for (int i{}; i < n; ++i) {
 ---- **bitmask dp** (subsets, submasks, SOS) ---- [*[ dip ]*](#kots-cf-templates-v2)
 
 ```cpp
+// ---- global ----
+template <class T>
+constexpr T inf = std::numeric_limits<T>::max() / 2;
+
+// ---- solve() ----
 // n <= ~20. dp[mask][v] = cheapest way to visit exactly the set mask, ending at v (TSP shape)
-std::vector dp(1 << n, std::vector<i64>(n, inf<i64>));
+vector dp(1 << n, vector<i64>(n, inf<i64>));
 for (int v{}; v < n; ++v)
     dp[1 << v][v] = 0;
 for (int mask = 1; mask < (1 << n); ++mask)
@@ -1154,7 +1173,7 @@ for (int mask = 1; mask < (1 << n); ++mask)
 for (int s = mask; s > 0; s = (s - 1) & mask) { /* ... */ }
 
 // SOS: f[msk] = sum of a[s] over all submasks s of msk, O(n 2^n)   (a.size() == 1 << n)
-std::vector<i64> f = a;
+vector<i64> f = a;
 for (int b{}; b < n; ++b)
     for (int msk{}; msk < (1 << n); ++msk)
         if (msk >> b & 1) f[msk] += f[msk ^ (1 << b)];
@@ -1168,7 +1187,7 @@ for (int b{}; b < n; ++b)
 
 ```cpp
 // pi[i] = length of the longest proper prefix of s[0..i] that is also a suffix of it
-std::vector<int> pi(std::ssize(s));
+vector<int> pi(std::ssize(s));
 for (int i = 1; i < std::ssize(s); ++i) {
     int j = pi[i - 1];
     while (j > 0 && s[i] != s[j]) j = pi[j - 1];
@@ -1182,7 +1201,7 @@ for (int i = 1; i < std::ssize(s); ++i) {
 
 ```cpp
 // z[i] = length of the longest common prefix of s and s[i..]   (z[0] = 0 by convention)
-std::vector<int> z(std::ssize(s));
+vector<int> z(std::ssize(s));
 for (int i = 1, l = 0, r = 0; i < std::ssize(s); ++i) { // [l, r) = rightmost window matching a prefix
     if (i < r) z[i] = std::min(r - i, z[i - l]);
     while (i + z[i] < std::ssize(s) && s[z[i]] == s[i + z[i]]) ++z[i];
@@ -1205,8 +1224,8 @@ struct Hash { // O(1) substring hash; collision chance ~ len / 2^61 per comparis
         u64 r = u64(c & M) + u64(c >> 61);
         return r >= M ? r - M : r;
     }
-    std::vector<u64> h, pw;
-    Hash(const std::string& s) : h(s.size() + 1), pw(s.size() + 1, 1) {
+    vector<u64> h, pw;
+    Hash(const string& s) : h(s.size() + 1), pw(s.size() + 1, 1) {
         for (int i{}; i < std::ssize(s); ++i) {
             h[i + 1] = (mul(h[i], B) + uint8_t(s[i])) % M;
             pw[i + 1] = mul(pw[i], B);
@@ -1221,7 +1240,7 @@ struct Hash { // O(1) substring hash; collision chance ~ len / 2^61 per comparis
 // ---- solve() ----
 Hash hs(s);
 bool same = hs.get(l1, r1) == hs.get(l2, r2); // B is shared, so hashes of different strings compare too
-// palindrome s[l..r): Hash hr(std::string(s.rbegin(), s.rend()));  hs.get(l, r) == hr.get(n - r, n - l)
+// palindrome s[l..r): Hash hr(string(s.rbegin(), s.rend()));  hs.get(l, r) == hr.get(n - r, n - l)
 ```
 
 ---
@@ -1232,9 +1251,9 @@ bool same = hs.get(l1, r1) == hs.get(l2, r2); // B is shared, so hashes of diffe
 
 ```cpp
 // ---- global ----
-constexpr std::pair<int, int> dir4[]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-constexpr std::pair<int, int> dir8[]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-constexpr std::pair<int, int> knight[]{{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
+constexpr pair<int, int> dir4[]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+constexpr pair<int, int> dir8[]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+constexpr pair<int, int> knight[]{{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
 
 // ---- solve() ----
 for (auto [dr, dc] : dir4) {
@@ -1249,7 +1268,7 @@ for (auto [dr, dc] : dir4) {
 // usually unnecessary: BFS/DFS can walk (r, c) directly. Useful for DSU / Dijkstra on cells
 auto id = [&](int r, int c) { return r * C + c; };
 
-std::vector adj(R * C, std::vector<int>{});
+vector adj(R * C, vector<int>{});
 for (int r{}; r < R; ++r)
     for (int c{}; c < C; ++c)
         for (auto [dr, dc] : dir4) {
@@ -1340,8 +1359,8 @@ struct chash { // splitmix64 + a per-run random offset: precomputed anti-hash te
 };
 
 // ---- solve() ----
-std::unordered_map<i64, int, chash> cnt;
-std::unordered_set<i64, chash> seen;
+unordered_map<i64, int, chash> cnt;
+unordered_set<i64, chash> seen;
 // pair key: encode as i64(a) << 32 | b   (a, b >= 0)
 ```
 
